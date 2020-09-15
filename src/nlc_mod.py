@@ -6,7 +6,6 @@ Video Segmentation by Non-Local Consensus Voting
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
-# from __future__ import unicode_literals
 import os
 import sys
 from PIL import Image
@@ -17,11 +16,10 @@ from skimage import color
 from scipy.spatial import KDTree
 from scipy.misc import imresize
 from scipy import ndimage
-# from cv2 import calcOpticalFlowFarneback, OPTFLOW_FARNEBACK_GAUSSIAN
 from scipy.signal import convolve2d
 import time
-import utils
-import _init_paths  # noqa
+import ginop.videoseg.src.utils as utils
+import ginop.videoseg.src._init_paths
 from mr_saliency import MR
 import pyflow
 
@@ -37,7 +35,6 @@ def superpixels(im, maxsp=200, vis=False, redirect=False):
         im = im[None, ...]
     sp = np.zeros(im.shape[:3], dtype=np.int)
     for i in range(im.shape[0]):
-        # slic needs im: float in [0,1]
         sp[i] = slic(im[i].astype(np.float) / 255., n_segments=maxsp, sigma=5)
         if not redirect:
             sys.stdout.write('Superpixel computation: [% 5.1f%%]\r' %
@@ -510,7 +507,7 @@ def remove_low_energy_blobs(maskSeq, binTh, relSize=0.6, relEnergy=None,
     return maskSeq
 
 
-def nlc(imSeq, maxsp, iters, outdir, suffix='',
+def nlc(imSeq, maxsp, iters, suffix='',
             clearBlobs=False, binTh=None, relEnergy=None,
             redirect=False, doload=False, dosave=None):
     """
@@ -540,20 +537,6 @@ def nlc(imSeq, maxsp, iters, outdir, suffix='',
         # get initial saliency score: either Motion or Appearance Saliency
         salImSeq = compute_saliency(imSeq, flowBdd=12.5, flowDirBins=20,
                                         redirect=redirect)
-
-    suffix = outdir.split('/')[-1] if suffix == '' else suffix
-    if doload:
-        sp = np.load(outdir + '/sp_%s.npy' % suffix)
-        regions = np.load(outdir + '/regions_%s.npy' % suffix)
-        frameEnd = np.load(outdir + '/frameEnd_%s.npy' % suffix)
-        transM = np.load(outdir + '/transM_%s.npy' % suffix)
-        salImSeq = np.load(outdir + '/salImSeq_%s.npy' % suffix)
-    if dosave:
-        np.save(outdir + '/sp_%s.npy' % suffix, sp)
-        np.save(outdir + '/regions_%s.npy' % suffix, regions)
-        np.save(outdir + '/frameEnd_%s.npy' % suffix, frameEnd)
-        np.save(outdir + '/transM_%s.npy' % suffix, transM)
-        np.save(outdir + '/salImSeq_%s.npy' % suffix, salImSeq)
 
     # create transition matrix
     transM = normalize_nn(transM, sigma=np.sqrt(0.1))
@@ -778,7 +761,3 @@ def demo_videos():
                 '-C', outdirV + '/result_%s/' % suffix, '.'])
 
     return
-
-if __name__ == "__main__":
-    # demo_videos()
-    demo_images()

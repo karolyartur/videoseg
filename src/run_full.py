@@ -82,7 +82,7 @@ def demo_images():
     redirect = True  # redirecting to output file ? won't print status
     frameGap = 0  # 0 means adjusted automatically per shot (not per video)
     maxSide = 650  # max length of longer side of Im
-    minShot = 10  # minimum shot length
+    minShot = 2  # minimum shot length
     maxShot = 110  # longer shots will be shrinked between [maxShot/2, maxShot]
     binTh = 0.7  # final thresholding to obtain mask
     clearVoteBlobs = True  # remove small blobs in consensus vote; uses binTh
@@ -228,6 +228,7 @@ def demo_images():
                 # save soft score as png between 0 to 100.
                 # Use binTh*100 to get FG in later usage.
                 mask = (maskSeq[i] * 100).astype(np.uint8)
+                imPathList1[i] = imPathList1[i].replace('\\','/')
                 Image.fromarray(mask).save(
                     outNlcIm + '/' +
                     imPathList1[i].split('/')[-1][:-4] + '.png')
@@ -259,12 +260,12 @@ def demo_images():
             print('Saving videos finished: %.2f s' % (eTime - sTime))
 
     # Tarzip the results of this shard and delete the individual files
-    import subprocess
+    #import subprocess
     for i in ['im', 'crfim', 'nlcim']:
         tarDir = args.baseOutdir + '/%s/shard%03d' % (i, args.shardId)
-        subprocess.call(['tar', '-zcf', tarDir + '.tar.gz', '-C',
-                        tarDir, '.'])
-        utils.rmdir_f(tarDir)
+        #subprocess.call(['tar', '-zcf', tarDir + '.tar.gz', '-C',
+        #                tarDir, '.'])
+        #utils.rmdir_f(tarDir)
 
     return
 

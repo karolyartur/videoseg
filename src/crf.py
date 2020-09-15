@@ -7,7 +7,7 @@ from __future__ import division
 from __future__ import print_function
 # from __future__ import unicode_literals
 import numpy as np
-import _init_paths  # noqa
+import ginop.videoseg.src._init_paths  # noqa
 import pydensecrf.densecrf as dcrf
 from pydensecrf.utils import compute_unary
 
@@ -85,7 +85,10 @@ def refine_crf(im, lb, gtProb=0.5, posTh=None, negTh=None, crfParams=0):
     im = np.ascontiguousarray(im[..., ::-1])
 
     # Compute the number of classes in the label image
-    M = len(set(lb.flat))
+    if 0 in lb:
+        M = len(set(lb.flat)) - 1
+    else:
+        M = len(set(lb.flat))
 
     # Setup the 2D-CRF model
     d = dcrf.DenseCRF2D(im.shape[1], im.shape[0], M)

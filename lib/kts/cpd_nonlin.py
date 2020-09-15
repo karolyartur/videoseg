@@ -57,14 +57,14 @@ def cpd_nonlin(K, ncp, lmin=1, lmax=100000, backtrack=True, verbose=True,
 
     if verbose:
         #print "n =", n
-        print "Precomputing scatters..."
+        print("Precomputing scatters...")
     J = calc_scatters(K)
 
     if out_scatters != None:
         out_scatters[0] = J
 
     if verbose:
-        print "Inferring best change points..."
+        print("Inferring best change points...")
     # I[k, l] - value of the objective for k change-points and l first frames
     I = 1e101*np.ones((m+1, n+1))
     I[0, lmin:lmax] = J[0, lmin-1:lmax-1]

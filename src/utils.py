@@ -44,7 +44,7 @@ def im2vid(vidPath, imSeq, maskSeq=None):
     """
     import cv2
     writer = cv2.VideoWriter(
-        vidPath, cv2.cv.CV_FOURCC('M', 'J', 'P', 'G'), 10,
+        vidPath, cv2.VideoWriter_fourcc('M', 'J', 'P', 'G'), 10,
         (imSeq[0].shape[1], imSeq[0].shape[0]))
     if not writer.isOpened():
         print('Video could not be written. Some bug!')

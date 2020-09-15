@@ -13,8 +13,8 @@ from PIL import Image
 from skimage import color
 # from skimage.feature import hog
 import numpy as np
-import _init_paths  # noqa
-import utils
+import ginop.videoseg.src._init_paths  # noqa
+import ginop.videoseg.src.utils as utils
 from kts.cpd_auto import cpd_auto
 
 
