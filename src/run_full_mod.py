@@ -11,10 +11,10 @@ import time
 from PIL import Image
 import numpy as np
 from scipy.misc import imresize
-import ginop.videoseg.src._init_paths
-import ginop.videoseg.src.nlc_mod as nlc
-import ginop.videoseg.src.vid2shots as vid2shots
-import ginop.videoseg.src.crf as crf
+import videoseg.src._init_paths
+import videoseg.src.nlc_mod as nlc
+import videoseg.src.vid2shots as vid2shots
+import videoseg.src.crf as crf
 
 def demo_images(numshards=1, shardid=0, doload=False, dosave=False, crfparams=0, seed=2905, vids=None):
 

@@ -18,8 +18,8 @@ from scipy.misc import imresize
 from scipy import ndimage
 from scipy.signal import convolve2d
 import time
-import ginop.videoseg.src.utils as utils
-import ginop.videoseg.src._init_paths
+import videoseg.src.utils as utils
+import videoseg.src._init_paths
 from mr_saliency import MR
 import pyflow
 
